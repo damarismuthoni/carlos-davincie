@@ -1,6 +1,6 @@
 'use client';
 
-import { Link as ScrollLink } from "react-scroll";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 const sections = ["home", "about", "services", "projects", "contact"];
@@ -11,18 +11,16 @@ export default function Home() {
       {/* Navigation Bar */}
       <nav className="fixed w-full bg-white shadow-md p-4 flex justify-center space-x-6">
         {sections.map((section) => (
-          <ScrollLink
+          <a
             key={section}
-            to={section}
-            smooth={true}
-            duration={500}
+            href={`#${section}`}
             className="cursor-pointer hover:text-blue-500"
           >
             {section.charAt(0).toUpperCase() + section.slice(1)}
-          </ScrollLink>
+          </a>
         ))}
       </nav>
-      
+
       <div className="pt-16">
         <Section id="home">Home Section</Section>
         <Section id="about">About Us</Section>
@@ -34,12 +32,19 @@ export default function Home() {
   );
 }
 
-// Reusable Section Component
+// Reusable Section Component with Smooth Scroll Animation
 function Section({ id, children }) {
   return (
-    <div id={id} className="h-screen flex items-center justify-center border-b">
+    <motion.div
+      id={id}
+      className="h-screen flex items-center justify-center border-b"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+    >
       <h1 className="text-3xl">{children}</h1>
-    </div>
+    </motion.div>
   );
 }
 
@@ -66,3 +71,4 @@ function ProjectsSection({ id }) {
     </Section>
   );
 }
+
